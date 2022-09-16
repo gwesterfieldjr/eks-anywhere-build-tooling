@@ -12,7 +12,7 @@ REPO=eks-a-admin-image
 REPO_OWNER=aws
 
 BUILD_TARGETS=validate
-RELEASE_TARGETS=build-raw-image
+RELEASE_TARGETS=snow-raw-image
 
 PACKER_VERSION=1.8.0
 
@@ -96,7 +96,6 @@ build-ova: export PKR_VAR_build-output=$(OVA_OUTPUT_DIR)
 build-ova: KIND_URL?=$(shell ./build/get_kind_url.sh $(ARTIFACTS_BUCKET) )
 build-ova: export PKR_VAR_kind-url=$(KIND_URL)
 build-ova: $(PACKER) init clean-ova $(OVA_OUTPUT_DIR)
-	echo $(VSPHERE_PASSWORD) $(VSPHERE_USERNAME)
 	$(PACKER) build -only='*.vsphere-iso.*' -var-file=ova/linux/ubuntu/vsphere.ubuntu.pkrvars.hcl .
 
 .PHONY: release-ova
